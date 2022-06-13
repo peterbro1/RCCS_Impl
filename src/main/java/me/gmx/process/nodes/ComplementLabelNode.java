@@ -16,7 +16,7 @@ public class ComplementLabelNode extends Label{
     }
 
     private ComplementLabelNode(ComplementLabelNode node){
-        origin = node.origin;
+        origin = node.origin();
         grammar = CCSGrammar.OUT_LABEL;
         id = node.getId();
     }

@@ -35,7 +35,6 @@ public class CCSParser {
 
         do{
             walker.walk();
-            RCCS.log(String.format("Begin matching with memory %s, counter: %d, set: %b",walker.readMemory(), counter, inSetNotation));
 
             if (CCSGrammar.OPEN_PARENTHESIS.match(String.valueOf(walker.read())).find()) {
                 counter++;
@@ -68,8 +67,6 @@ public class CCSParser {
                     continue;
                 Matcher m = g.match(walker.readMemory());
                 if (m.find()){
-                    RCCS.log("Found match: " + m.group() + " Grammar: " + g.name());
-
                     if (inSetNotation){
                         if (g == CCSGrammar.LABEL_COMBINED){
                             restrictions.add(LabelFactory.parseNode(m.group())); //Add restriction to list
@@ -86,7 +83,6 @@ public class CCSParser {
 
 
                     if (g == CCSGrammar.LABEL_COMBINED) { //a , 'b , c
-                        RCCS.log("Adding prefix: " + m.group());
                         prefixes.add(LabelFactory.parseNode(m.group()));
                         if (!walker.canWalk()){
                             template.add(new ActionPrefixProcess(new NullProcess(), prefixes));
@@ -123,7 +119,7 @@ public class CCSParser {
                         //RCCS.log("Parsing into summation...");
                         template.add(new SummationProcess(null,null));
                     }else if (g == CCSGrammar.OP_SEQUENTIAL){
-                        RCCS.log("Found sequential match: " + m.group());
+                        //TODO: implement
                     }else if (g == CCSGrammar.OPEN_RESTRICTION){ //\{a,b}
                         if (!inSetNotation)
                             inSetNotation = true;

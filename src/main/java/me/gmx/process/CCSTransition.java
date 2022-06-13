@@ -2,6 +2,10 @@ package me.gmx.process;
 
 import me.gmx.process.nodes.Label;
 import me.gmx.process.nodes.LabelKey;
+import me.gmx.process.process.Process;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Basically a storage to hold a transition step. This is to be used in the central
@@ -14,14 +18,19 @@ public class CCSTransition {
 
     public Process from, to;
     public Label label;
-    public LabelKey key;
+    public Collection<LabelKey> dependsOn;
 
     public CCSTransition(Process f, Process t, Label l){
         this.from = f;
         this.to = t;
         this.label = l;
-        this.key = new LabelKey(l);
+        dependsOn = new HashSet<LabelKey>();
     }
+
+    public void addDependence(LabelKey key){
+        dependsOn.add(key);
+    }
+
 
 
 }

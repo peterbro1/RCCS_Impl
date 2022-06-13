@@ -11,6 +11,7 @@ public class TauLabelNode extends Label {
         this.node = node;
         this.complement = comp;
         consumeLeft = consumeRight = false;
+        origin = origin();
     }
 
 

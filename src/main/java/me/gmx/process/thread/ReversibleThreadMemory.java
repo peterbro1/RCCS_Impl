@@ -3,8 +3,11 @@ package me.gmx.process.thread;
 import me.gmx.process.CCSTransition;
 import me.gmx.process.nodes.Label;
 import me.gmx.process.nodes.LabelKey;
+import me.gmx.process.process.Process;
 
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -13,25 +16,58 @@ import java.util.Stack;
  */
 public class ReversibleThreadMemory {
 
-    private Hashtable<LabelKey, CCSTransition> reversibilityTable;
-    private static Stack<CCSTransition> stack;
+    private LinkedHashMap<LabelKey, CCSTransition> reversibilityTable;
+    private Stack<LabelKey> stack;
 
     public ReversibleThreadMemory(){
-        reversibilityTable = new Hashtable<>();
+        reversibilityTable = new LinkedHashMap<>();
         stack = new Stack<>();
     }
 
-    //TODO: Implement? May not be needed
-    public static void addReversibilityStep(Process f, Process t, Label l){
-        stack.push(new CCSTransition(f, t, l));
+    //TODO: do the cloning here?
+    public void remember(Process f, Process t, Label l, LabelKey key){
+        CCSTransition transition = new CCSTransition(f,t,l);
+        reversibilityTable.put(key,transition);
+        stack.push(key);
     }
 
-    public static CCSTransition lookup(LabelKey key){
-        for (CCSTransition t : stack){
-            if (t.key.equals(key))
-                return t;
+    public LabelKey recentHistory(){
+        return stack.isEmpty() ? null : stack.peek();
+    }
+
+    public boolean isEmpty(){
+        return stack.isEmpty();
+    }
+
+    public boolean containsKey(LabelKey key){
+        return stack.contains(key);
+    }
+
+    public CCSTransition lookup(LabelKey key){
+        for (LabelKey l : stack){
+            if (l.equals(key))
+                return reversibilityTable.get(key);
         }
         return null;
+    }
+
+    public Process rewindTo(LabelKey key){
+        while(!stack.isEmpty()){
+            LabelKey k = stack.pop();
+            if (k.equals(key))
+                return reversibilityTable.get(k).from;
+        }
+        return null;
+    }
+
+
+    /**
+     * Trims the stack and list, deleting all memory elements not on the stack
+     */
+    public void cleanup(){
+        for (LabelKey key : stack)
+            if (!reversibilityTable.containsKey(key))
+                reversibilityTable.remove(key);
     }
 
 

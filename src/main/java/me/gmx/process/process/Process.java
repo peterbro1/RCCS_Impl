@@ -2,30 +2,37 @@ package me.gmx.process.process;
 
 import me.gmx.RCCS;
 import me.gmx.process.nodes.Label;
+import me.gmx.process.nodes.LabelKey;
 import me.gmx.process.nodes.ProgramNode;
-import me.gmx.process.thread.ReversibleThread;
+import me.gmx.process.thread.ReversibleThreadMemory;
 import me.gmx.util.SetUtil;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Process extends ProgramNode implements ReversibleThread  {
+public abstract class Process extends ProgramNode{
 
     Set<Label> restrictions = new HashSet<>();
 
+    private ReversibleThreadMemory memory = new ReversibleThreadMemory();
+
     public Process(){}
 
-    public void addRestriction(Label... labels){
-        for (Label l : labels)
-            restrictions.add(l);
-    }
-
-    //Very annoying that java cannot process collections as ... streams :(
     public void addRestrictions(Collection<Label> labels){
         for (Label l : labels){
             restrictions.add(l);
         }
+    }
+
+    /**
+     * Save a transition to memory through the action of the given label
+     * This is the method that actually 'acts' on a label
+     * @param label
+     */
+    protected void rememberTransition(Label label){
+        Process p = this.clone();
+        memory.remember(p,this.actOn(label),label, new LabelKey(label));
     }
 
     public Collection<Label> getRestriction(){
@@ -62,17 +69,14 @@ public abstract class Process extends ProgramNode implements ReversibleThread  {
      * @return will return this, after having acted on the given label
      */
     public Process act(Label label){
-
-        return this.actOn(label);
+        if (label instanceof LabelKey){
+            if (memory.containsKey((LabelKey) label)){
+                return memory.rewindTo((LabelKey) label);
+            }
+        }
+        rememberTransition(label);
+        return this;
     }
-
-
-    /**
-     * A formatted version of this process to be printed. This is the only method that
-     * should be called to print to screen unless you will be comparing processes
-     * @return
-     */
-    public abstract String represent();
 
     /**
      * Internal represent method to be called by subclasses. This sets the 'format' for
@@ -86,23 +90,30 @@ public abstract class Process extends ProgramNode implements ReversibleThread  {
         s+= getRestriction().isEmpty() ? "" : String.format("\\{%s}",SetUtil.csvSet(getRestriction()));
         return s;
     }
-
-
-    public abstract Collection<Process> getChildren();
-
     /**
      * Base superclass method for getting labels. Only adds any keys
      * @return
      */
     public Collection<Label> getActionableLabels(){
         Set<Label> l = new HashSet<>();
-
+        if (!memory.isEmpty())
+            l.add(memory.recentHistory());
         return l;
     }
 
     public abstract String origin();
 
     protected abstract Process clone();
+
+    public abstract Collection<Process> getChildren();
+
+    /**
+     * A formatted version of this process to be printed. This is the only method that
+     * should be called to print to screen unless you will be comparing processes
+     * @return
+     */
+    public abstract String represent();
+
 
 
 }
