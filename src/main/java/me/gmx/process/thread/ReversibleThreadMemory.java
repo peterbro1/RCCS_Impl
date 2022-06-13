@@ -11,29 +11,41 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Stack;
 
-/**
- * Something like a table maybe? Not really sure how this is going to work.
- * Maybe something like key -> {(process 1), (process 2)}
- */
+
 public class ReversibleThreadMemory {
 
     private LinkedHashMap<LabelKey, CCSTransition> reversibilityTable;
     private Stack<LabelKey> stack;
+    private Process p;
 
-    public ReversibleThreadMemory(){
+    public ReversibleThreadMemory(Process p){ //dependency injection! woohoo
         reversibilityTable = new LinkedHashMap<>();
         stack = new Stack<>();
+        this.p = p;
     }
 
     //TODO: do the cloning here?
-    public void remember(Process f, Process t, Label l, LabelKey key){
+    public void remember(Process f, Process t, Label l){
         CCSTransition transition = new CCSTransition(f,t,l);
+        LabelKey key = new LabelKey(l);
         reversibilityTable.put(key,transition);
         stack.push(key);
     }
 
     public LabelKey recentHistory(){
-        return stack.isEmpty() ? null : stack.peek();
+        return stack.peek();
+    }
+
+    public void clear(){
+        stack.clear();
+        reversibilityTable.clear();
+    }
+
+    public CCSTransition pop(){
+        LabelKey k = stack.pop();
+        CCSTransition t = reversibilityTable.get(k);
+        cleanup();
+        return t;
     }
 
     public boolean isEmpty(){

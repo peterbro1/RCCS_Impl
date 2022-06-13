@@ -1,5 +1,7 @@
 package me.gmx.process.nodes;
 
+import java.util.UUID;
+
 //Making a separate class because I want to store the two labels that are synchronizing.
 //TODO: NYI
 public class TauLabelNode extends Label {
@@ -12,6 +14,7 @@ public class TauLabelNode extends Label {
         this.complement = comp;
         consumeLeft = consumeRight = false;
         origin = origin();
+        id = UUID.randomUUID();
     }
 
 

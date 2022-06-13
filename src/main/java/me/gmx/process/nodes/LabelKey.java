@@ -4,10 +4,14 @@ import java.util.UUID;
 
 public class LabelKey extends Label {
 
-    private Label from;
+    Label from;
     public LabelKey(Label node){
         this.id = UUID.randomUUID();
         this.from = node;
+    }
+
+    public boolean sameOrigin(LabelKey k){
+        return k.from.equals(from);
     }
 
     /**

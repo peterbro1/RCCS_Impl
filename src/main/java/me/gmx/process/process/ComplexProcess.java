@@ -17,6 +17,7 @@ public abstract class ComplexProcess extends Process{
 
 
     public ComplexProcess(Process left, Process right, CCSGrammar operator){
+        super();
         this.left = left;
         this.right = right;
         this.operator = operator;

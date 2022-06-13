@@ -13,6 +13,7 @@ public class ActionPrefixProcess extends Process {
     private Process process;
 
     public ActionPrefixProcess(Process p, List<Label> labels){
+        super();
         this.process = p;
         this.prefixes = new LinkedList<Label>();
         this.prefixes.addAll(labels);
