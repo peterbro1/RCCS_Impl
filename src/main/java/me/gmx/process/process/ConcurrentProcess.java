@@ -32,6 +32,12 @@ public class ConcurrentProcess extends ComplexProcess{
         return this;
     }
 
+    //Concurrent processes cant be annotated
+    @Override
+    protected void annotate(LabelKey key){
+        return;
+    }
+
     @Override
     public ConcurrentProcess clone() {
         ConcurrentProcess p = new ConcurrentProcess(left.clone(), right.clone());

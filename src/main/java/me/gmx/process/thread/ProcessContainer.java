@@ -53,7 +53,6 @@ public class ProcessContainer {
             memory.remember(parentProcess, node, key);
             parentProcess = parentProcess.act(node);
             RCCS.log(String.format("Annotating %s with %s", parentProcess.represent(), key.origin()));
-            parentProcess.annotate(key);
             return this;
         }
         throw new CCSTransitionException(node);

@@ -60,7 +60,9 @@ public abstract class Process extends ProgramNode{
      * @return will return this, after having acted on the given label
      */
     public Process act(Label label){
-        return this.actOn(label);
+        Process p = actOn(label);
+        p.annotate(new LabelKey(label));
+        return p;
     }
 
     /**
@@ -86,7 +88,7 @@ public abstract class Process extends ProgramNode{
         return l;
     }
 
-    public void annotate(LabelKey key){
+    protected void annotate(LabelKey key){
         annotation = key;
     }
 
