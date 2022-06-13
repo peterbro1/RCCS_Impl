@@ -53,6 +53,7 @@ public class SummationProcess extends ComplexProcess{
     public SummationProcess clone() {
         SummationProcess p = new SummationProcess(left.clone(), right.clone());
         p.addRestrictions(restrictions);
+        p.annotation = annotation;
         return p;
     }
 

@@ -1,5 +1,6 @@
 package me.gmx.process.thread;
 
+import me.gmx.RCCS;
 import me.gmx.parser.CCSTransitionException;
 import me.gmx.process.ProcessTemplate;
 import me.gmx.process.nodes.Label;
@@ -51,6 +52,7 @@ public class ProcessContainer {
             LabelKey key = new LabelKey(node);
             memory.remember(parentProcess, node, key);
             parentProcess = parentProcess.act(node);
+            RCCS.log(String.format("Annotating %s with %s", parentProcess.represent(), key.origin()));
             parentProcess.annotate(key);
             return this;
         }

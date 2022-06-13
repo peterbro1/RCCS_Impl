@@ -29,6 +29,7 @@ public class ReversibleThreadMemory {
         reversibilityTable.put(key,transition);
         stack.push(key);
     }
+
     public void remember(Process f, Label l, LabelKey key){
         CCSTransition transition = new CCSTransition(f.clone(),null,l);
         reversibilityTable.put(key,transition);

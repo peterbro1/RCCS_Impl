@@ -31,6 +31,7 @@ public class ActionPrefixProcess extends Process {
         prf.addAll(prefixes);
         ActionPrefixProcess p = new ActionPrefixProcess(getProcess().clone(), prf);
         p.addRestrictions(getRestriction());
+        p.annotation = annotation;
         return p;
     }
 

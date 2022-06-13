@@ -16,6 +16,7 @@ public class ProcessImpl extends Process implements ActionableProcess {
     public Process clone() {
         ProcessImpl p = new ProcessImpl(origin());
         p.addRestrictions(this.getRestriction());
+        p.annotation = annotation;
         return p;
     }
 
