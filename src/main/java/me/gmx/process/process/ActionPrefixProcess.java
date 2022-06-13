@@ -26,12 +26,11 @@ public class ActionPrefixProcess extends Process {
      * @return Deep clone (hopefully) of this process
      */
     @Override
-    protected ActionPrefixProcess clone() {
+    public ActionPrefixProcess clone() {
         LinkedList<Label> prf = new LinkedList<>();
         prf.addAll(prefixes);
         ActionPrefixProcess p = new ActionPrefixProcess(getProcess().clone(), prf);
         p.addRestrictions(getRestriction());
-        p.setMemory(this.memory);
         return p;
     }
 

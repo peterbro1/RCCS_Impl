@@ -15,30 +15,15 @@ public abstract class Process extends ProgramNode{
 
     Set<Label> restrictions = new HashSet<>();
 
-    protected ReversibleThreadMemory memory;
 
     public Process(){
-        memory = new ReversibleThreadMemory(this);
     }
 
-    public void setMemory(ReversibleThreadMemory memory){
-        this.memory = memory;
-    }
 
     public void addRestrictions(Collection<Label> labels){
         for (Label l : labels){
             restrictions.add(l);
         }
-    }
-
-    /**
-     * Save a transition to memory through the action of the given label
-     * This is the method that actually 'acts' on a label
-     * @param label
-     */
-    protected void rememberTransition(Label label){
-        Process p = this.clone();
-        memory.remember(p,this.actOn(label),label);
     }
 
     public Collection<Label> getRestriction(){
@@ -75,23 +60,7 @@ public abstract class Process extends ProgramNode{
      * @return will return this, after having acted on the given label
      */
     public Process act(Label label){
-        if (label instanceof LabelKey){
-            if (memory.containsKey((LabelKey) label)){
-                try {
-                    return memory.rewindTo((LabelKey) label);
-                }catch(Exception e){
-                    e.printStackTrace();
-                    }
-                }
-        }
-        rememberTransition(label);
-        //TODO: make separate method
-        for (Process p : getChildren()){
-            if (!p.memory.isEmpty())
-            if (p.memory.recentHistory().equals(memory.recentHistory()))
-                memory.pop();
-        }
-        return this;
+        return this.actOn(label);
     }
 
     /**
@@ -112,8 +81,6 @@ public abstract class Process extends ProgramNode{
      */
     public Collection<Label> getActionableLabels(){
         Set<Label> l = new HashSet<>();
-        if (!memory.isEmpty())
-            l.add(memory.recentHistory());
         return l;
     }
 
@@ -124,7 +91,7 @@ public abstract class Process extends ProgramNode{
      * Clones process, but shares memory.
      * @return A pseudo deep clone of this, sharing the same memory object
      */
-    protected abstract Process clone();
+    public abstract Process clone();
 
     public abstract Collection<Process> getChildren();
 

@@ -16,18 +16,23 @@ public class ReversibleThreadMemory {
 
     private LinkedHashMap<LabelKey, CCSTransition> reversibilityTable;
     private Stack<LabelKey> stack;
-    private Process p;
 
-    public ReversibleThreadMemory(Process p){ //dependency injection! woohoo
+    public ReversibleThreadMemory(){
         reversibilityTable = new LinkedHashMap<>();
         stack = new Stack<>();
-        this.p = p;
     }
 
     //TODO: do the cloning here?
     public void remember(Process f, Process t, Label l){
         CCSTransition transition = new CCSTransition(f,t,l);
         LabelKey key = new LabelKey(l);
+        reversibilityTable.put(key,transition);
+        stack.push(key);
+    }
+
+    public void remember(Process from, Label label){
+        CCSTransition transition = new CCSTransition(from, null, label);
+        LabelKey key = new LabelKey(label);
         reversibilityTable.put(key,transition);
         stack.push(key);
     }
@@ -66,7 +71,7 @@ public class ReversibleThreadMemory {
 
     public Process rewindTo(LabelKey key) throws Exception{
         if (!containsKey(key))
-            throw new Exception("Could not rewind");
+            throw new Exception("Could not rewind"); //TODO: improve
         while(!stack.isEmpty()){
             LabelKey k = stack.pop();
             if (k.equals(key))

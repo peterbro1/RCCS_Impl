@@ -4,19 +4,23 @@ import me.gmx.parser.CCSGrammar;
 import me.gmx.parser.CCSParserException;
 import me.gmx.parser.CCSTransitionException;
 import me.gmx.process.nodes.Label;
+import me.gmx.process.nodes.LabelKey;
 import me.gmx.process.process.ComplexProcess;
 import me.gmx.process.process.Process;
+import me.gmx.process.thread.ReversibleThreadMemory;
 
 import java.util.*;
 
 
 
 public class ProcessTemplate {
+    public boolean isInit = false;
     private final LinkedList<Process> tList;
+
     public ProcessTemplate(){
         tList = new LinkedList<>();
     }
-    public boolean isInit = false;
+
 
 
     public void add(Process node){
@@ -49,30 +53,13 @@ public class ProcessTemplate {
         isInit = true;
     }
 
-
-    @Deprecated
-    public void write(){
-        for (Process o : tList)
-            System.out.println(o.origin());
-        System.out.println();
-    }
-
     public String prettyString(){
-        StringBuilder sb = new StringBuilder();
-        for (Process o : tList) {
-            sb.append(o.represent());
-        }
-        return sb.toString();
+        StringBuilder b = new StringBuilder();
+        for (Process p : tList)
+            b.append(p.represent());
+        return b.toString();
     }
 
-    public Set<Label> getActionableLabels(){
-        Set<Label> nodes = new HashSet<>();
-        for(Process p : tList)
-            nodes.addAll(p.getActionableLabels());
-
-
-        return nodes;
-    }
 
     /**
      * Exports ProcessTemplate as a process. ProcessTemplate should always init down to
@@ -85,23 +72,9 @@ public class ProcessTemplate {
             initComplex();
         if (tList.size() != 1)
             throw new CCSParserException("Could not export process template into process!");
-        else return tList.get(0);
-    }
-
-    public boolean canAct(Label node){
-        return getActionableLabels().contains(node);
-    }
-
-
-    public ProcessTemplate actOn(Label node){
-        for(int i = 0; i < tList.size();i++) {
-            Process p = tList.get(i);
-            if (p.canAct(node)) {
-                tList.set(i, p.act(node));
-                return this;
-            }
+        else {
+            return tList.get(0);
         }
-        throw new CCSTransitionException(node);
     }
 
     public void addRestrictionToLastProcess(Collection<Label> restrictions){

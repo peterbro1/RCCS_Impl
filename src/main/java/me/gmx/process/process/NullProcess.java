@@ -14,7 +14,6 @@ public class NullProcess extends Process{
     public Process clone(){
         NullProcess p = new NullProcess();
         p.addRestrictions(getRestriction());
-        p.setMemory(memory);
         return p;
     }
 
