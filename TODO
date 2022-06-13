@@ -8,3 +8,4 @@ This is just for me, so it may not make sense. But it can stay public.
 - Asymmetrical branch concurrency tau-checking (will a top level branch match tau from left right to right left?)
 - Fix table reversibility
 - Figure out what to do with LabelKey hash function or key generation
+-- Decide what to do about the tree
