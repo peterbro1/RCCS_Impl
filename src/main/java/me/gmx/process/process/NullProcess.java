@@ -12,7 +12,8 @@ public class NullProcess extends Process{
 
     @Override
     public Process clone(){
-        return new NullProcess();
+        NullProcess p = new NullProcess();
+        return p;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class NullProcess extends Process{
     //Not needed?
     @Override
     public Collection<Label> getActionableLabels() {
-        return super.getActionableLabels();
+        return Collections.emptySet();
     }
 
     @Override

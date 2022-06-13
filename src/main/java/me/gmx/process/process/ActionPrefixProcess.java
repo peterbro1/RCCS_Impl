@@ -30,10 +30,6 @@ public class ActionPrefixProcess extends Process {
         LinkedList<Label> prf = new LinkedList<>();
         prf.addAll(prefixes);
         ActionPrefixProcess p = new ActionPrefixProcess(getProcess().clone(), prf);
-        if (hasKey()) {
-            p.setPastLife(previousLife);
-            p.setKey(getKey());
-        }
         p.addRestrictions(getRestriction());
 
         return p;
@@ -56,9 +52,7 @@ public class ActionPrefixProcess extends Process {
     @Override
     public Process actOn(Label label) {
         if (getPrefix().equals(label)) {
-            setPastLife(clone());
             prefixes.removeFirst();
-            setKey(new LabelKey(label));
         }
         recalculateOrigin();
         return this;

@@ -22,32 +22,15 @@ public class SummationProcess extends ComplexProcess{
      * @return self-process, having acted on label
      */
 
-    //Returns left or right, setting their past life to a clone of this
     @Override
     public Process actOn(Label label) {
-        Process b = clone();
         if (left.canAct(label)) {
             Process p = left.act(label);
-            p.setPastLife(b);
-            p.setKey(new LabelKey(label));
             return p;
         }else if (right.canAct(label)){
             Process p = right.act(label);
-            p.setPastLife(b);
-            p.setKey(new LabelKey(label));
             return p;
         }else throw new CCSTransitionException(this,label);
-    }
-
-    @Override
-    public SummationProcess clone() {
-        SummationProcess p = new SummationProcess(left.clone(), right.clone());
-        if (hasKey()){
-            p.setPastLife(previousLife);
-            p.setKey(key);
-        }
-        p.addRestrictions(restrictions);
-        return p;
     }
 
     @Override
@@ -64,6 +47,13 @@ public class SummationProcess extends ComplexProcess{
         s.addAll(l);
         s.addAll(r);
         return s;
+    }
+
+    @Override
+    public SummationProcess clone() {
+        SummationProcess p = new SummationProcess(left.clone(), right.clone());
+        p.addRestrictions(restrictions);
+        return p;
     }
 
 }

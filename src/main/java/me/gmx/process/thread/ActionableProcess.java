@@ -1,4 +1,4 @@
-package me.gmx.process.process;
+package me.gmx.process.thread;
 
 public interface ActionableProcess {
 

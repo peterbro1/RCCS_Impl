@@ -4,11 +4,9 @@ import java.util.UUID;
 
 public class LabelKey extends Label {
 
-    private UUID uuid;
-
     private Label from;
     public LabelKey(Label node){
-        this.uuid = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.from = node;
     }
 
@@ -18,13 +16,13 @@ public class LabelKey extends Label {
      * @param id
      */
     public LabelKey(Label node, UUID id){
-        this.uuid = id;
+        this.id = id;
         this.from = node;
     }
 
     @Override
     public String toString(){
-        return this.uuid.toString();
+        return this.id.toString();
     }
 
 
@@ -34,6 +32,6 @@ public class LabelKey extends Label {
     }
 
     public LabelKey clone(){
-        return new LabelKey((Label)from.clone(), from.getId());
+        return new LabelKey((Label)from, from.getId());
     }
 }

@@ -12,6 +12,7 @@ public abstract class Label extends ProgramNode{
     public CCSGrammar grammar;
     UUID id;
     protected Collection<Label> synchronizeLock;
+    protected String origin;
     //Instanced initializer block ??
     {
         synchronizeLock = new HashSet<>();
@@ -21,10 +22,7 @@ public abstract class Label extends ProgramNode{
         return id;
     }
 
-    @Override
-    public String origin() {
-        return origin;
-    }
+    public String origin(){ return origin;}
 
     /**
      * Determines whether this process can synchronize via tau transition with the given label
@@ -57,7 +55,6 @@ public abstract class Label extends ProgramNode{
         if (RCCS.UNIQUE_CHANNELS)
             return label.getId().equals(getId());
         else {
-            boolean c = label.origin().equals(origin());
             return label.origin().equals(origin());
         }
     }
@@ -78,8 +75,5 @@ public abstract class Label extends ProgramNode{
         return node.origin().equals(String.format("'%s", origin()))
                 || origin().equals(String.format("'%s", node.origin()));
     }
-
-    public abstract Label clone();
-
 
 }

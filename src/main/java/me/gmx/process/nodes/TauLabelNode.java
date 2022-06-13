@@ -33,10 +33,4 @@ public class TauLabelNode extends Label {
     public Label getB(){
         return complement;
     }
-
-    @Override
-    public TauLabelNode clone(){
-        return new TauLabelNode((Label) getA().clone(),(Label) getB().clone());
-    }
-
 }

@@ -15,13 +15,19 @@ public class ComplementLabelNode extends Label{
         this.id = UUID.randomUUID();
     }
 
+    private ComplementLabelNode(ComplementLabelNode node){
+        origin = node.origin;
+        grammar = CCSGrammar.OUT_LABEL;
+        id = node.getId();
+    }
+
     public String toString(){
         return this.origin();
     }
 
     @Override
     public ComplementLabelNode clone(){
-        return new ComplementLabelNode(new String(origin));
+        return new ComplementLabelNode(this);
     }
 
 }

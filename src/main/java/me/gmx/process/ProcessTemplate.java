@@ -34,13 +34,14 @@ public class ProcessTemplate {
         for (CCSGrammar g : CCSGrammar.values()){
             for (ComplexProcess p : complex){
                 if (p.getClass() == g.getClassObject()){
-                    if (p.left == null)
+                    if (p.left == null) {
                         //Subsume object to the left
-                        p.left = tList.remove(tList.indexOf(p)-1);
-
-                    if (p.right == null)
+                        p.left = tList.remove(tList.indexOf(p) - 1);
+                    }
+                    if (p.right == null) {
                         //Subsume object to the right
-                        p.right = tList.remove(tList.indexOf(p)+1);
+                        p.right = tList.remove(tList.indexOf(p) + 1);
+                    }
 
                 }
             }
