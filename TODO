@@ -7,4 +7,4 @@ This is just for me, so it may not make sense. But it can stay public.
 - Unicode symbols
 - Asymmetrical branch concurrency tau-checking (will a top level branch match tau from left right to right left?)
 - Fix table reversibility
-- Figure out what to do with cloning and memory sharing
+- Figure out what to do with LabelKey hash function or key generation
