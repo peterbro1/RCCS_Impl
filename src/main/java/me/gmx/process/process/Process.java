@@ -15,9 +15,13 @@ public abstract class Process extends ProgramNode{
 
     Set<Label> restrictions = new HashSet<>();
 
-    private ReversibleThreadMemory memory = new ReversibleThreadMemory();
+    protected ReversibleThreadMemory memory = new ReversibleThreadMemory();
 
     public Process(){}
+
+    public void setMemory(ReversibleThreadMemory memory){
+        this.memory = memory;
+    }
 
     public void addRestrictions(Collection<Label> labels){
         for (Label l : labels){
@@ -71,8 +75,12 @@ public abstract class Process extends ProgramNode{
     public Process act(Label label){
         if (label instanceof LabelKey){
             if (memory.containsKey((LabelKey) label)){
-                return memory.rewindTo((LabelKey) label);
-            }
+                try {
+                    return memory.rewindTo((LabelKey) label);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    }
+                }
         }
         rememberTransition(label);
         return this;
@@ -103,6 +111,11 @@ public abstract class Process extends ProgramNode{
 
     public abstract String origin();
 
+
+    /**
+     * Clones process, but shares memory.
+     * @return A pseudo deep clone of this, sharing the same memory object
+     */
     protected abstract Process clone();
 
     public abstract Collection<Process> getChildren();

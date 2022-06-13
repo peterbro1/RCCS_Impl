@@ -1,5 +1,6 @@
 package me.gmx.process.thread;
 
+import me.gmx.parser.CCSTransitionException;
 import me.gmx.process.CCSTransition;
 import me.gmx.process.nodes.Label;
 import me.gmx.process.nodes.LabelKey;
@@ -51,7 +52,9 @@ public class ReversibleThreadMemory {
         return null;
     }
 
-    public Process rewindTo(LabelKey key){
+    public Process rewindTo(LabelKey key) throws Exception{
+        if (!containsKey(key))
+            throw new Exception("Could not rewind");
         while(!stack.isEmpty()){
             LabelKey k = stack.pop();
             if (k.equals(key))

@@ -24,14 +24,13 @@ public class ActionPrefixProcess extends Process {
      * Clones process
      * @return Deep clone (hopefully) of this process
      */
-    //Do clones need to remember their past lives? I am actually not sure. Seems like an ethical question
     @Override
     protected ActionPrefixProcess clone() {
         LinkedList<Label> prf = new LinkedList<>();
         prf.addAll(prefixes);
         ActionPrefixProcess p = new ActionPrefixProcess(getProcess().clone(), prf);
         p.addRestrictions(getRestriction());
-
+        p.setMemory(this.memory);
         return p;
     }
 

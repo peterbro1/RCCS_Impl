@@ -15,6 +15,8 @@ public class ProcessImpl extends Process implements ActionableProcess {
     @Override
     protected Process clone() {
         ProcessImpl p = new ProcessImpl(origin());
+        p.addRestrictions(this.getRestriction());
+        p.setMemory(this.memory);
         return p;
     }
 

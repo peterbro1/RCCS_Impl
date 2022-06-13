@@ -36,6 +36,7 @@ public class ConcurrentProcess extends ComplexProcess{
     public ConcurrentProcess clone() {
         ConcurrentProcess p = new ConcurrentProcess(left.clone(), right.clone());
         p.addRestrictions(restrictions);
+        p.setMemory(this.memory);
         return p;
     }
 
