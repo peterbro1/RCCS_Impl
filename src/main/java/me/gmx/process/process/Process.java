@@ -14,7 +14,7 @@ import java.util.Set;
 public abstract class Process extends ProgramNode{
 
     Set<Label> restrictions = new HashSet<>();
-
+    public LabelKey annotation;
 
     public Process(){
     }
@@ -71,7 +71,9 @@ public abstract class Process extends ProgramNode{
      */
     protected String represent(String base){
         String s = "";
-        s += String.format("%s",base);
+
+        s += annotation == null ? String.format("%s", base) :
+                String.format("%s%s",annotation.origin(), base);
         s+= getRestriction().isEmpty() ? "" : String.format("\\{%s}",SetUtil.csvSet(getRestriction()));
         return s;
     }
@@ -82,6 +84,10 @@ public abstract class Process extends ProgramNode{
     public Collection<Label> getActionableLabels(){
         Set<Label> l = new HashSet<>();
         return l;
+    }
+
+    public void annotate(LabelKey key){
+        annotation = key;
     }
 
     public abstract String origin();

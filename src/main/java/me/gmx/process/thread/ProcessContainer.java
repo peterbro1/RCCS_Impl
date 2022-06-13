@@ -48,8 +48,10 @@ public class ProcessContainer {
             }
         }
         if (parentProcess.canAct(node)) {
-            memory.remember(parentProcess.clone(), node);
+            LabelKey key = new LabelKey(node);
+            memory.remember(parentProcess, node, key);
             parentProcess = parentProcess.act(node);
+            parentProcess.annotate(key);
             return this;
         }
         throw new CCSTransitionException(node);
