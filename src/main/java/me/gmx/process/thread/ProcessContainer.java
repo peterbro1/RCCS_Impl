@@ -24,8 +24,10 @@ public class ProcessContainer {
     public Collection<Label> getActionableLabels(){
         Collection<Label> nodes = parentProcess.getActionableLabels();
 
-        if (!memory.isEmpty())
-            nodes.add(memory.recentHistory());
+        if (!memory.isEmpty()) {
+            //nodes.add(memory.recentHistory());
+            nodes.addAll(parentProcess.recurseAnnotations());
+        }
 
         return nodes;
     }
@@ -45,6 +47,7 @@ public class ProcessContainer {
                 parentProcess = memory.rewindTo((LabelKey) node);
                 return this;
             }catch (Exception e){
+                e.printStackTrace();
                 throw new CCSTransitionException(parentProcess, node);
             }
         }

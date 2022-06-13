@@ -60,7 +60,6 @@ public class ProcessTemplate {
         return b.toString();
     }
 
-
     /**
      * Exports ProcessTemplate as a process. ProcessTemplate should always init down to
      * a single 'parent' process.

@@ -1,12 +1,13 @@
 package me.gmx.process.nodes;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class LabelKey extends Label {
 
     Label from;
     public LabelKey(Label node){
-        this.id = UUID.randomUUID();
+        this.id = node.getId();
         this.from = node;
     }
 
@@ -14,21 +15,10 @@ public class LabelKey extends Label {
         return k.from.equals(from);
     }
 
-    /**
-     * To replicate UUIDs for tau transitions
-     * @param node
-     * @param id
-     */
-    public LabelKey(Label node, UUID id){
-        this.id = id;
-        this.from = node;
-    }
-
     @Override
     public String toString(){
         return this.id.toString();
     }
-
 
     @Override
     public String origin() {
@@ -36,6 +26,6 @@ public class LabelKey extends Label {
     }
 
     public LabelKey clone(){
-        return new LabelKey((Label)from, from.getId());
+        return new LabelKey((Label)from);
     }
 }

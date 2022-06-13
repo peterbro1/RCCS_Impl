@@ -55,14 +55,14 @@ public class ReversibleThreadMemory {
 
     public CCSTransition pop(){
         LabelKey k = stack.pop();
-        CCSTransition t = reversibilityTable.get(k);
-        cleanup();
+        CCSTransition t = reversibilityTable.remove(k);
         return t;
     }
 
     public boolean isEmpty(){
         return stack.isEmpty();
     }
+
 
     public boolean containsKey(LabelKey key){
         return stack.contains(key);

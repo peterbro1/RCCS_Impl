@@ -103,6 +103,18 @@ public abstract class Process extends ProgramNode{
 
     public abstract Collection<Process> getChildren();
 
+    public Collection<LabelKey> recurseAnnotations(){
+        Collection<LabelKey> c = new HashSet<>();
+        Collection<Process> children = getChildren();
+        if (annotation != null)
+            c.add(annotation);
+
+        if (!children.isEmpty())
+            for (Process p : children)
+                c.addAll(p.recurseAnnotations());
+            return c;
+    }
+
     /**
      * A formatted version of this process to be printed. This is the only method that
      * should be called to print to screen unless you will be comparing processes
