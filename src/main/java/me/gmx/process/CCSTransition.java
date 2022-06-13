@@ -13,14 +13,12 @@ import java.util.HashSet;
  * so this may not be feasible. We will see tomorrow.
  */
 
-
 public class CCSTransition {
-
-    public Process from, to;
+    public me.gmx.process.process.Process from, to;
     public Label label;
     public Collection<LabelKey> dependsOn;
 
-    public CCSTransition(Process f, Process t, Label l){
+    public CCSTransition(me.gmx.process.process.Process f, me.gmx.process.process.Process t, Label l){
         this.from = f;
         this.to = t;
         this.label = l;

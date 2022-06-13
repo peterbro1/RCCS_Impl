@@ -4,7 +4,6 @@ import me.gmx.RCCS;
 import me.gmx.process.nodes.Label;
 import me.gmx.process.nodes.LabelKey;
 import me.gmx.process.nodes.ProgramNode;
-import me.gmx.process.thread.ReversibleThreadMemory;
 import me.gmx.util.SetUtil;
 
 import java.util.Collection;
@@ -94,6 +93,7 @@ public abstract class Process extends ProgramNode{
 
     public abstract String origin();
 
+    public abstract Collection<Process> recurseChildren();
 
     /**
      * Clones process, but shares memory.

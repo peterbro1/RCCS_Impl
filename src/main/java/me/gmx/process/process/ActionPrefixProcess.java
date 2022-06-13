@@ -43,7 +43,7 @@ public class ActionPrefixProcess extends Process {
         return process;
     }
 
-
+    public Collection<Process> recurseChildren(){return getChildren();}
     /**
      * Acts on label. sets past life to clone of this
      * @param label label to act on

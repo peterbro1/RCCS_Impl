@@ -20,6 +20,8 @@ public class ProcessImpl extends Process implements ActionableProcess {
         return p;
     }
 
+    public Collection<Process> recurseChildren(){ return getChildren(); }
+
     //TODO: implement
     @Override
     public void execute(){

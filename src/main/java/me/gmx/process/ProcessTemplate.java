@@ -2,12 +2,9 @@ package me.gmx.process;
 
 import me.gmx.parser.CCSGrammar;
 import me.gmx.parser.CCSParserException;
-import me.gmx.parser.CCSTransitionException;
 import me.gmx.process.nodes.Label;
-import me.gmx.process.nodes.LabelKey;
 import me.gmx.process.process.ComplexProcess;
 import me.gmx.process.process.Process;
-import me.gmx.process.thread.ReversibleThreadMemory;
 
 import java.util.*;
 
@@ -21,8 +18,6 @@ public class ProcessTemplate {
         tList = new LinkedList<>();
     }
 
-
-
     public void add(Process node){
         tList.add(node);
     }
@@ -33,8 +28,6 @@ public class ProcessTemplate {
         for (Process process : tList)
             if (process instanceof ComplexProcess)
                 complex.add((ComplexProcess) process);
-
-
         for (CCSGrammar g : CCSGrammar.values()){
             for (ComplexProcess p : complex){
                 if (p.getClass() == g.getClassObject()){
@@ -52,7 +45,6 @@ public class ProcessTemplate {
         }
         isInit = true;
     }
-
     public String prettyString(){
         StringBuilder b = new StringBuilder();
         for (Process p : tList)

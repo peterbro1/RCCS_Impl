@@ -18,6 +18,8 @@ public class NullProcess extends Process{
         return p;
     }
 
+    public Collection<Process> recurseChildren(){ return Collections.EMPTY_SET; }
+
     @Override
     public boolean canAct(Label label) {
         return false;
